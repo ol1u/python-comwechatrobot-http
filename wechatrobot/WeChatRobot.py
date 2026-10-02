@@ -84,6 +84,8 @@ class WeChatRobot:
                 elif (1 == msg["isSendMsg"]):
                     if 1 == msg["isSendByPhone"]:
                         Bus.emit("self_msg", msg)
+                    else:
+                        Bus.emit("sent_msg", msg)  # API 发出的消息,供 slave 拿 msgid(撤回/编辑用)
                 elif "chatroom" in msg["sender"]:
                     Bus.emit("group_msg", msg)
                 else:
