@@ -1,4 +1,5 @@
 from pydantic.v1 import BaseModel
+from typing import Optional
 
 # login check
 WECHAT_IS_LOGIN = 0                         # 登录检查
@@ -68,6 +69,7 @@ WECHAT_LOGOUT = 44                          # 退出登录
 WECHAT_GET_TRANSFER = 45                    # 收款
 WECHAT_MSG_SEND_EMOTION = 46                # 发送表情
 WECHAT_GET_CDN = 47                         # 下载文件、视频、图片
+WECHAT_MSG_REVOKE_MESSAGE = 50              # 撤回消息
 
 # Body
 
@@ -268,3 +270,9 @@ class SendEmotionBody(Body):
 #get cdn
 class GetCdnBody(Body):
     msgid : int
+
+#revoke message
+class RevokeMessageBody(Body):
+    wxid: str
+    msgid: str
+    local_id: Optional[str] = None

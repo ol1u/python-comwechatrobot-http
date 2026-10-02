@@ -156,6 +156,9 @@ class Api:
     def GetCdn(self , **params) -> Dict:
         return self.post(WECHAT_GET_CDN , GetCdnBody(**params))
 
+    def RevokeMessage(self , **params) -> Dict:
+        return self.post(WECHAT_MSG_REVOKE_MESSAGE , RevokeMessageBody(**params))
+
     #[自定义
     def GetDBHandle(self, db_name="MicroMsg.db") -> int:
         if not self.db_handle:
