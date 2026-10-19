@@ -20,6 +20,9 @@ class Api:
     def SendText(self , **params) -> Dict:
         return self.post(WECHAT_MSG_SEND_TEXT , SendTextBody(**params))
 
+    def SendQuoteText(self , **params) -> Dict:
+        return self.post(WECHAT_MSG_SEND_QUOTE_TEXT , SendQuoteTextBody(**params))
+
     def SendAt(self , **params) -> Dict:
         return self.post(WECHAT_MSG_SEND_AT , SendAtBody(**params))
 
