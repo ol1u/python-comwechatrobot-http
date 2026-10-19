@@ -23,6 +23,9 @@ class Api:
     def SendQuoteText(self , **params) -> Dict:
         return self.post(WECHAT_MSG_SEND_QUOTE_TEXT , SendQuoteTextBody(**params))
 
+    def GetChatMsgBySvrId(self , **params) -> Dict:
+        return self.post(WECHAT_MSG_GET_BY_SVR_ID , GetChatMsgBySvrIdBody(**params), timeout = 10.0)
+
     def SendAt(self , **params) -> Dict:
         return self.post(WECHAT_MSG_SEND_AT , SendAtBody(**params))
 
@@ -235,8 +238,9 @@ class Api:
             return None
     #自定义]
 
-    def post(self , type : int, params : Body) -> Dict:
-        return json.loads(requests.post( f"http://{self.host}:{self.port}/api/?type={type}", data = params.json()).content.decode("utf-8"),strict=False)
+    def post(self , type : int, params : Body, timeout : float = 60.0) -> Dict:
+        # P0-1 修复：给 hook API 调用加超时，避免 hook hanging 时线程永久阻塞
+        return json.loads(requests.post( f"http://{self.host}:{self.port}/api/?type={type}", data = params.json(), timeout = timeout).content.decode("utf-8"),strict=False)
 
     def exec_command(self , item: str) -> Callable:
         return eval(f"self.{item}")
