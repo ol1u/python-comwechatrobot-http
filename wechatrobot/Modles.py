@@ -70,6 +70,7 @@ WECHAT_GET_TRANSFER = 45                    # 收款
 WECHAT_MSG_SEND_EMOTION = 46                # 发送表情
 WECHAT_GET_CDN = 47                         # 下载文件、视频、图片
 WECHAT_MSG_REVOKE_MESSAGE = 50              # 撤回消息
+WECHAT_MSG_SEND_QUOTE_TEXT = 51             # 原生引用回复
 
 # Body
 
@@ -88,6 +89,11 @@ class GetSelfInfoBody(Body):
 class SendTextBody(Body):
     wxid : str
     msg  : str
+
+class SendQuoteTextBody(Body):
+    wxid         : str
+    msg          : str
+    target_msgid : str
 
 class SendAtBody(Body):
     chatroom_id  : str
