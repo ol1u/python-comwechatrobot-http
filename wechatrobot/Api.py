@@ -47,20 +47,20 @@ class Api:
     def StartMsgHook(self, **params) -> Dict:
         return self.post(WECHAT_MSG_START_HOOK , StartMsgHookBody(**params))
 
-    def StopMsgHook(self, timeout: float = 60.0, **params) -> Dict:
-        return self.post(WECHAT_MSG_STOP_HOOK, StopMsgHookBody(**params), timeout=timeout)
+    def StopMsgHook(self , **params) -> Dict:
+        return self.post(WECHAT_MSG_STOP_HOOK , StopMsgHookBody(**params))
     
     def StartImageHook(self , **params) -> Dict:
         return self.post(WECHAT_MSG_START_IMAGE_HOOK , StartImageHookBody(**params))
 
-    def StopImageHook(self, timeout: float = 60.0, **params) -> Dict:
-        return self.post(WECHAT_MSG_STOP_IMAGE_HOOK, StopImageHookBody(**params), timeout=timeout)
+    def StopImageHook(self , **params) -> Dict:
+        return self.post(WECHAT_MSG_STOP_IMAGE_HOOK , StopImageHookBody(**params))
 
     def StartVoiceHook(self , **params) -> Dict:
         return self.post(WECHAT_MSG_START_VOICE_HOOK  , StartVoiceHookBody(**params))
 
-    def StopVoiceHook(self, timeout: float = 60.0, **params) -> Dict:
-        return self.post(WECHAT_MSG_STOP_VOICE_HOOK, StopVoiceHookBody(**params), timeout=timeout)
+    def StopVoiceHook(self , **params) -> Dict:
+        return self.post(WECHAT_MSG_STOP_VOICE_HOOK , StopVoiceHookBody(**params))
 
     def GetContactList(self , **params) -> Dict:
         return self.post(WECHAT_CONTACT_GET_LIST , GetContactListBody(**params))
@@ -122,8 +122,8 @@ class Api:
     def QueryDatabase(self , **params) -> Dict:
         return self.post(WECHAT_DATABASE_QUERY , QueryDatabaseBody(**params))
 
-    def SetVersion(self, timeout: float = 60.0, **params) -> Dict:
-        return self.post(WECHAT_SET_VERSION, SetVersionBody(**params), timeout=timeout)
+    def SetVersion(self , **params) -> Dict:
+        return self.post(WECHAT_SET_VERSION , SetVersionBody(**params))
 
     def StartLogHook(self , **params) -> Dict:
         return self.post(WECHAT_LOG_START_HOOK , StartLogHookBody(**params))
@@ -141,8 +141,7 @@ class Api:
         return self.post(WECHAT_MSG_FORWARD_MESSAGE , ForwardMessageBody(**params))
 
     def GetQrcodeImage(self , **params):
-        r = requests.post( f"http://{self.host}:{self.port}/api/?type={WECHAT_GET_QRCODE_IMAGE}", data = GetQrcodeImageBody(**params).json(), timeout=60.0)
-        r.raise_for_status()
+        r = requests.post( f"http://{self.host}:{self.port}/api/?type={WECHAT_GET_QRCODE_IMAGE}", data = GetQrcodeImageBody(**params).json())
         return r.content
 
     def GetA8Key(self , **params) -> Dict:
@@ -241,14 +240,9 @@ class Api:
 
     def post(self , type : int, params : Body, timeout : float = 60.0) -> Dict:
         # P0-1 修复：给 hook API 调用加超时，避免 hook hanging 时线程永久阻塞
-        response = requests.post(
-            f"http://{self.host}:{self.port}/api/?type={type}",
-            data=params.json(), timeout=timeout,
-        )
-        response.raise_for_status()
-        return json.loads(response.content.decode("utf-8"), strict=False)
+        return json.loads(requests.post( f"http://{self.host}:{self.port}/api/?type={type}", data = params.json(), timeout = timeout).content.decode("utf-8"),strict=False)
 
     def exec_command(self , item: str) -> Callable:
-        return getattr(self, item)
+        return eval(f"self.{item}")
 
         
