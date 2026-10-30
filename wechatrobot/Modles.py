@@ -72,6 +72,8 @@ WECHAT_GET_CDN = 47                         # 下载文件、视频、图片
 WECHAT_MSG_REVOKE_MESSAGE = 50              # 撤回消息
 WECHAT_MSG_SEND_QUOTE_TEXT = 51             # 原生引用回复
 WECHAT_MSG_GET_BY_SVR_ID = 52                # 按服务器消息 ID 查询原始 XML
+WECHAT_GET_VOICE_MSG = 53                    # 下载企业微信语音
+WECHAT_GET_EMOJI_MSG = 54                    # 下载企业微信动态表情
 
 # Body
 
@@ -286,3 +288,14 @@ class RevokeMessageBody(Body):
     wxid: str
     msgid: str
     local_id: Optional[str] = None
+
+#get openim media
+class GetVoiceMsgBody(Body):
+    msgid       : str
+    content     : Optional[str] = None
+    clientmsgid : Optional[str] = None
+
+class GetEmojiMsgBody(Body):
+    msgid   : str
+    content : Optional[str] = None
+    url     : Optional[str] = None

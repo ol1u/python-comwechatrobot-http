@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Any, Callable, Dict
 import threading
 import logging
 import socketserver
@@ -127,6 +127,12 @@ class WeChatRobot:
         except Exception as e:
             logging.error(e)
         return None
+
+    def GetVoiceMsg(self, **params) -> Dict[str, Any]:
+        return self.api.GetVoiceMsg(**params)
+
+    def GetEmojiMsg(self, **params) -> Dict[str, Any]:
+        return self.api.GetEmojiMsg(**params)
 
     def get_base_path(self):
         return self.BASE_PATH
