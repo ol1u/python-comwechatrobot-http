@@ -162,6 +162,12 @@ class Api:
     def GetCdn(self , **params) -> Dict:
         return self.post(WECHAT_GET_CDN , GetCdnBody(**params))
 
+    def GetVoiceMsg(self , **params) -> Dict:
+        return self.post(WECHAT_GET_VOICE_MSG , GetVoiceMsgBody(**params), timeout=90.0)
+
+    def GetEmojiMsg(self , **params) -> Dict:
+        return self.post(WECHAT_GET_EMOJI_MSG , GetEmojiMsgBody(**params), timeout=90.0)
+
     def RevokeMessage(self , **params) -> Dict:
         return self.post(WECHAT_MSG_REVOKE_MESSAGE , RevokeMessageBody(**params))
 
